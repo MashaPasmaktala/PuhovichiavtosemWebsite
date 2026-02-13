@@ -200,7 +200,6 @@ export function Home() {
           </p>
         </div>
 
-        {/* Статистика занимает всю ширину */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
@@ -249,18 +248,20 @@ export function Home() {
                 <div className="absolute -inset-2 bg-gradient-to-r from-[#8b0000] to-[#600000] rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
                 
                 <div className="relative h-full flex flex-col bg-gradient-to-b from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-3xl overflow-hidden hover:border-[#8b0000]/50 transition-all duration-500 group-hover:scale-[1.02]">
-                  <div className="relative h-64 md:h-72 flex-shrink-0 overflow-hidden">
+                  {/* Image Container - УВЕЛИЧЕННАЯ ВЫСОТА для полного отображения */}
+                  <div className="relative w-full h-[300px] md:h-[350px] lg:h-[400px] flex-shrink-0 overflow-hidden bg-[#0a0000]">
                     <img 
                       src={service.image} 
                       alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="absolute inset-0 w-full h-full object-contain group-hover:scale-110 transition-transform duration-700"
+                      style={{ objectPosition: 'center' }}
                       onError={(e) => {
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2070';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0000] via-[#0a0000]/60 to-transparent"></div>
                     
-                    <div className="absolute top-6 left-6 z-10">
+                    <div className="absolute top-6 left-6 z-20">
                       <div className="relative">
                         <div className="absolute inset-0 bg-[#8b0000]/50 rounded-2xl blur-lg"></div>
                         <div className="relative p-3 bg-gradient-to-br from-[#8b0000] to-[#600000] rounded-2xl">
@@ -534,6 +535,35 @@ export function Home() {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+
+        /* Оптимизация для мобильных устройств */
+        @media (max-width: 640px) {
+          .fade-in-scroll {
+            animation-duration: 0.6s;
+          }
+        }
+
+        /* Улучшение производительности анимаций */
+        @media (prefers-reduced-motion: reduce) {
+          .animate-flame-wave-1,
+          .animate-flame-wave-2,
+          .animate-flame-wave-3,
+          .animate-flame-wave-4,
+          .animate-flame-left,
+          .animate-flame-right,
+          .animate-flame-center,
+          .animate-fire-flash,
+          .animate-fire-flash-delayed,
+          .animate-fire-flash-slow,
+          .animate-shimmer,
+          .group-hover\\:scale-\\[1\\.02\\],
+          .group-hover\\:scale-110,
+          .fade-in-scroll {
+            animation: none;
+            transform: none;
+            transition: none;
           }
         }
       `}</style>

@@ -96,16 +96,16 @@ export function ServicesPage() {
         <div className="w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           
           {/* Hero Section with Sparks */}
-          <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden mb-12 md:mb-20">
+          <section className="relative min-h-[30vh] md:min-h-[40vh] flex items-center justify-center overflow-hidden mb-12 md:mb-20">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Fire Background */}
-              <div className="absolute bottom-0 left-0 w-full h-[300px] overflow-hidden">
-                <div className="absolute bottom-0 left-0 w-full h-[250px] bg-gradient-to-t from-[#8b0000]/30 via-[#600000]/20 to-transparent animate-flame-wave-1"></div>
-                <div className="absolute bottom-0 left-0 w-full h-[200px] bg-gradient-to-t from-[#600000]/25 via-[#8b0000]/15 to-transparent animate-flame-wave-2"></div>
+              <div className="absolute bottom-0 left-0 w-full h-[200px] md:h-[300px] overflow-hidden">
+                <div className="absolute bottom-0 left-0 w-full h-[150px] md:h-[250px] bg-gradient-to-t from-[#8b0000]/30 via-[#600000]/20 to-transparent animate-flame-wave-1"></div>
+                <div className="absolute bottom-0 left-0 w-full h-[120px] md:h-[200px] bg-gradient-to-t from-[#600000]/25 via-[#8b0000]/15 to-transparent animate-flame-wave-2"></div>
               </div>
               
-              <div className="absolute bottom-0 left-1/4 w-[200px] h-[300px] bg-gradient-to-tr from-[#8b0000]/30 via-[#600000]/15 to-transparent animate-flame-left blur-2xl"></div>
-              <div className="absolute bottom-0 right-1/4 w-[200px] h-[300px] bg-gradient-to-tl from-[#600000]/30 via-[#8b0000]/15 to-transparent animate-flame-right blur-2xl"></div>
+              <div className="absolute bottom-0 left-1/4 w-[150px] md:w-[200px] h-[200px] md:h-[300px] bg-gradient-to-tr from-[#8b0000]/30 via-[#600000]/15 to-transparent animate-flame-left blur-xl md:blur-2xl"></div>
+              <div className="absolute bottom-0 right-1/4 w-[150px] md:w-[200px] h-[200px] md:h-[300px] bg-gradient-to-tl from-[#600000]/30 via-[#8b0000]/15 to-transparent animate-flame-right blur-xl md:blur-2xl"></div>
               
               {/* Sparks */}
               {sparks.map(spark => (
@@ -129,79 +129,82 @@ export function ServicesPage() {
             </div>
 
             {/* Main Content */}
-            <div className="relative z-10 text-center w-full">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-2 md:mb-4 leading-tight tracking-tight text-[#FFFFFF] ">
+            <div className="relative z-10 text-center w-full px-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mb-2 md:mb-4 leading-tight tracking-tight text-[#FFFFFF] ">
                 НАШИ УСЛУГИ
               </h1>
               
               {/* Small white text before divider */}
-              <h2 className="text-base sm:text-lg md:text-xl text-white/80 mb-4 md:mb-6 font-medium">
+              <h2 className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 mb-4 md:mb-6 font-medium">
                 Полный цикл обработки стекла
               </h2>
 
               {/* Fire Divider */}
-              <div className="flex items-center justify-center gap-4 my-6 md:my-8">
-                <div className="h-0.5 w-20 md:w-32 bg-gradient-to-r from-transparent via-[#b50202] to-[#8b0000] animate-pulse"></div>
+              <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 my-4 md:my-6">
+                <div className="h-0.5 w-12 sm:w-16 md:w-20 lg:w-32 bg-gradient-to-r from-transparent via-[#b50202] to-[#8b0000] animate-pulse"></div>
                 <div className="relative">
                   <div className="absolute inset-0 bg-[#b50202] blur-lg animate-ping opacity-70"></div>
-                  <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-white relative z-10" />
+                  <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white relative z-10" />
                 </div>
-                <div className="h-0.5 w-20 md:w-32 bg-gradient-to-l from-transparent via-[#b50202] to-[#8b0000] animate-pulse"></div>
+                <div className="h-0.5 w-12 sm:w-16 md:w-20 lg:w-32 bg-gradient-to-l from-transparent via-[#b50202] to-[#8b0000] animate-pulse"></div>
               </div>
             </div>
           </section>
 
           {/* Services Grid */}
           <section className="relative mb-16 md:mb-24">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 w-full">
               {services.map((service, index) => (
                 <div
                   key={index}
-                  className="group relative fade-in-scroll"
+                  className="group relative fade-in-scroll h-full"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="absolute -inset-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-all duration-500"></div>
+                  <div className="absolute -inset-1.5 sm:-inset-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-30 blur-lg sm:blur-xl transition-all duration-500"></div>
                   
-                  <div className="relative bg-gradient-to-b from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-3xl overflow-hidden hover:border-[#b50202]/50 transition-all duration-500 group-hover:scale-[1.03] h-full flex flex-col">
-                    {/* Image */}
-                    <div className="relative h-64 md:h-72 flex-shrink-0 overflow-hidden">
+                  <div className="relative bg-gradient-to-b from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-2xl sm:rounded-3xl overflow-hidden hover:border-[#b50202]/50 transition-all duration-500 group-hover:scale-[1.02] h-full flex flex-col">
+                    {/* Image Container - УВЕЛИЧЕННАЯ ВЫСОТА для полного отображения */}
+                    <div className="relative w-full h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] flex-shrink-0 overflow-hidden bg-[#0a0000]">
                       <img 
                         src={service.image} 
                         alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="absolute inset-0 w-full h-full object-contain group-hover:scale-110 transition-transform duration-700"
+                        style={{ objectPosition: 'center' }}
                         onError={(e) => {
                           e.currentTarget.src = 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2070';
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0000] via-[#0a0000]/60 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0000] via-[#0a0000]/40 to-transparent"></div>
                       
-                      {/* Title overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0a0000] to-transparent">
-                        <h3 className="text-xl md:text-2xl font-bold text-white">
+                      {/* Title overlay - ПОДНЯТ ВЫШЕ */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 bg-gradient-to-t from-[#0a0000] via-[#0a0000]/80 to-transparent">
+                        <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white leading-tight drop-shadow-lg">
                           {service.title}
                         </h3>
                       </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="flex-grow flex flex-col p-6 md:p-8">
-                      <p className="text-lg md:text-xl text-slate-400 mb-6 leading-relaxed flex-grow">
+                    {/* Content - УМЕНЬШЕНЫ ОТСТУПЫ */}
+                    <div className="flex-grow flex flex-col p-4 sm:p-5 md:p-6 lg:p-8">
+                      <p className="text-sm sm:text-base md:text-lg text-slate-400 mb-3 sm:mb-4 md:mb-5 leading-relaxed flex-grow">
                         {service.description}
                       </p>
 
                       {/* Features */}
-                      <div className="space-y-3">
+                      <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
                         {service.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center">
-                            <span className="w-2 h-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-full mr-3 flex-shrink-0"></span>
-                            <span className="text-base text-slate-300 font-medium">{feature}</span>
+                          <div key={idx} className="flex items-start">
+                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-2"></span>
+                            <span className="text-xs sm:text-sm md:text-base text-slate-300 font-medium leading-tight">
+                              {feature}
+                            </span>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     {/* Bottom accent line */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-full group-hover:w-3/4 transition-all duration-500"></div>
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-full group-hover:w-3/4 transition-all duration-500"></div>
                   </div>
                 </div>
               ))}
@@ -210,16 +213,16 @@ export function ServicesPage() {
 
           {/* Features Grid */}
           <section className="relative mb-16 md:mb-24">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)]">
+            <div className="text-center mb-8 sm:mb-10 md:mb-12 px-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-2 sm:mb-3 md:mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] leading-tight">
                 НАШИ ПРЕИМУЩЕСТВА
               </h2>
-              <div className="text-xl md:text-2xl text-slate-400 font-medium">
+              <div className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 font-medium">
                 ГАРАНТИЯ КАЧЕСТВА И ПРОФЕССИОНАЛИЗМА
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 w-full">
               {[
                 {
                   icon: Shield,
@@ -244,15 +247,15 @@ export function ServicesPage() {
               ].map((feature, index) => {
                 const Icon = feature.icon;
                 return (
-                  <div key={index} className="relative group fade-in-scroll">
-                    <div className="absolute -inset-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-all duration-500"></div>
-                    <div className="relative bg-gradient-to-b from-[#1a0000] to-[#0a0000] backdrop-blur-sm border-2 border-[#300000] rounded-3xl p-8 hover:border-[#b50202]/50 transition-all duration-300 h-full">
-                      <div className="flex flex-col items-center text-center gap-6">
-                        <div className="p-4 bg-gradient-to-br from-[#b50202]/20 to-[#8b0000]/20 rounded-xl border border-[#b50202]/30">
-                          <Icon className="w-10 h-10 text-[#b50202]" />
+                  <div key={index} className="relative group fade-in-scroll h-full">
+                    <div className="absolute -inset-1.5 sm:-inset-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-30 blur-lg sm:blur-xl transition-all duration-500"></div>
+                    <div className="relative bg-gradient-to-b from-[#1a0000] to-[#0a0000] backdrop-blur-sm border-2 border-[#300000] rounded-2xl sm:rounded-3xl p-6 sm:p-7 md:p-8 hover:border-[#b50202]/50 transition-all duration-300 h-full">
+                      <div className="flex flex-col items-center text-center gap-4 sm:gap-5 md:gap-6">
+                        <div className="p-3 sm:p-3.5 md:p-4 bg-gradient-to-br from-[#b50202]/20 to-[#8b0000]/20 rounded-lg sm:rounded-xl border border-[#b50202]/30">
+                          <Icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-[#b50202]" />
                         </div>
-                        <h4 className="text-2xl font-black text-white">{feature.title}</h4>
-                        <div className="text-lg text-slate-400">{feature.description}</div>
+                        <h4 className="text-base sm:text-lg md:text-xl lg:text-2xl font-black text-white leading-tight">{feature.title}</h4>
+                        <div className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">{feature.description}</div>
                       </div>
                     </div>
                   </div>
@@ -263,40 +266,40 @@ export function ServicesPage() {
 
           {/* CTA Section */}
           <section className="relative mb-16 md:mb-24">
-            <div className="absolute -inset-2 bg-gradient-to-r from-[#b50202] via-[#8b0000] to-[#b50202] rounded-3xl blur opacity-30 animate-pulse"></div>
+            <div className="absolute -inset-1.5 sm:-inset-2 bg-gradient-to-r from-[#b50202] via-[#8b0000] to-[#b50202] rounded-2xl sm:rounded-3xl blur opacity-30 animate-pulse"></div>
             
-            <div className="relative bg-gradient-to-br from-[#1a0000] via-[#0a0000] to-[#1a0000] border-2 border-[#300000] rounded-3xl p-8 sm:p-12 text-center overflow-hidden group">
+            <div className="relative bg-gradient-to-br from-[#1a0000] via-[#0a0000] to-[#1a0000] border-2 border-[#300000] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 text-center overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-[#b50202]/10 via-[#8b0000]/10 to-[#b50202]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               
               <div className="relative">
-                <h2 className="text-2xl sm:text-3xl font-black text-[#b50202] mb-6 drop-shadow-[0_0_10px_rgba(181,2,2,0.5)]">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-[#b50202] mb-4 sm:mb-5 md:mb-6 drop-shadow-[0_0_10px_rgba(181,2,2,0.5)] leading-tight">
                   НУЖНА КОНСУЛЬТАЦИЯ?
                 </h2>
                 
-                <div className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
+                <div className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 mb-6 sm:mb-7 md:mb-8 max-w-2xl mx-auto px-2 leading-relaxed">
                   Наши специалисты помогут подобрать оптимальное решение для вашего проекта 
                   и рассчитают стоимость работ
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center px-4 sm:px-0">
                   <a
                     href="tel:+375296694444"
-                    className="group/btn px-8 py-4 bg-gradient-to-r from-[#b50202] to-[#8b0000] text-white rounded-xl font-black hover:shadow-2xl hover:shadow-[#8b0000]/60 transition-all hover:scale-105 inline-flex items-center justify-center gap-3 text-lg"
+                    className="group/btn px-6 sm:px-7 md:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-[#b50202] to-[#8b0000] text-white rounded-xl font-black hover:shadow-2xl hover:shadow-[#8b0000]/60 transition-all hover:scale-105 inline-flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base md:text-lg"
                   >
-                    <Phone className="w-5 h-5" />
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                     <div>ПОЗВОНИТЬ КОНСУЛЬТАНТУ</div>
                   </a>
                   
                   <Link
                     to="/contacts"
-                    className="px-8 py-4 bg-[#1a0000] border-2 border-[#300000] text-slate-300 rounded-xl font-bold hover:bg-[#b50202]/30 hover:text-white hover:border-[#b50202] transition-colors inline-flex items-center justify-center gap-3 text-lg"
+                    className="px-6 sm:px-7 md:px-8 py-3.5 sm:py-4 bg-[#1a0000] border-2 border-[#300000] text-slate-300 rounded-xl font-bold hover:bg-[#b50202]/30 hover:text-white hover:border-[#b50202] transition-colors inline-flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base md:text-lg"
                   >
-                    <Mail className="w-5 h-5" />
+                    <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                     <div>НАПИСАТЬ НАМ</div>
                   </Link>
                 </div>
                 
-                <div className="text-base text-slate-500 mt-8">
+                <div className="text-xs sm:text-sm md:text-base text-slate-500 mt-6 sm:mt-7 md:mt-8 px-2 leading-relaxed">
                   Бесплатный расчет стоимости • Профессиональная консультация • Быстрое изготовление • Официальный договор
                 </div>
               </div>
@@ -363,6 +366,28 @@ export function ServicesPage() {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+
+        /* Оптимизация для мобильных устройств */
+        @media (max-width: 640px) {
+          .fade-in-scroll {
+            animation-duration: 0.6s;
+          }
+        }
+
+        /* Улучшение производительности анимаций */
+        @media (prefers-reduced-motion: reduce) {
+          .animate-flame-wave-1,
+          .animate-flame-wave-2,
+          .animate-flame-left,
+          .animate-flame-right,
+          .group-hover\\:scale-\\[1\\.02\\],
+          .group-hover\\:scale-110,
+          .fade-in-scroll {
+            animation: none;
+            transform: none;
+            transition: none;
           }
         }
       `}</style>
