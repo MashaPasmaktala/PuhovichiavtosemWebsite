@@ -1,11 +1,17 @@
 // src/app/components/ContactModal.tsx
 import { useState } from 'react';
-import { X, Phone, User, MessageSquare, Send, Clock, MapPin, Mail } from 'lucide-react';
+import { X, Phone, User, MessageSquare, Send, Clock, MapPin, Mail } from 'lucide-react'; // Убрал CheckCircle и AlertCircle
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+// Конфигурация Telegram бота (пока оставим тут, потом вынесете)
+const TELEGRAM_CONFIG = {
+  botToken: '8586686760:AAGEafuj8hqimM8K_bryZN3USV0Io6RsfSc',
+  chatId: '960967841'
+};
 
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [formData, setFormData] = useState({
@@ -13,12 +19,51 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     phone: "",
     message: "",
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Спасибо за обращение! Мы свяжемся с вами в ближайшее время.");
-    setFormData({ name: "", phone: "", message: "" });
-    onClose();
+    setIsSubmitting(true);
+
+    try {
+      // Формируем сообщение для Telegram
+      const text = `🔥 Новая заявка с сайта!
+      
+👤 Имя: ${formData.name || 'Не указано'}
+📞 Телефон: ${formData.phone}
+💬 Сообщение: ${formData.message || 'Без сообщения'}
+
+⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+
+      // Отправляем в Telegram
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CONFIG.chatId,
+          text: text,
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.ok) {
+        alert("Спасибо! Заявка отправлена менеджеру ✅");
+        setFormData({ name: "", phone: "", message: "" });
+        onClose();
+      } else {
+        alert("Ошибка при отправке. Попробуйте позже или позвоните нам ☎️");
+        console.error('Telegram API error:', result);
+      }
+    } catch (error) {
+      alert("Ошибка соединения. Проверьте интернет и попробуйте снова");
+      console.error('Ошибка:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -52,7 +97,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50"
+              disabled={isSubmitting}
+              className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50 disabled:opacity-50"
             >
               <X className="w-5 h-5" />
             </button>
@@ -165,7 +211,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:border-red-600 focus:ring-2 focus:ring-red-600/50 outline-none transition text-sm"
+                      disabled={isSubmitting}
+                      className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:border-red-600 focus:ring-2 focus:ring-red-600/50 outline-none transition text-sm disabled:opacity-50"
                       placeholder="Иван Иванов"
                     />
                   </div>
@@ -185,7 +232,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:border-red-600 focus:ring-2 focus:ring-red-600/50 outline-none transition text-sm"
+                      disabled={isSubmitting}
+                      className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:border-red-600 focus:ring-2 focus:ring-red-600/50 outline-none transition text-sm disabled:opacity-50"
                       placeholder="+375 (29) 669 44 44"
                     />
                   </div>
@@ -204,7 +252,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       value={formData.message}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:border-red-600 focus:ring-2 focus:ring-red-600/50 outline-none transition text-sm resize-none"
+                      disabled={isSubmitting}
+                      className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:border-red-600 focus:ring-2 focus:ring-red-600/50 outline-none transition text-sm resize-none disabled:opacity-50"
                       placeholder="Кратко опишите ваш вопрос..."
                     />
                   </div>
@@ -214,16 +263,27 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 px-4 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium text-sm"
+                    disabled={isSubmitting}
+                    className="flex-1 px-4 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium text-sm disabled:opacity-50"
                   >
                     Отмена
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 group relative px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-2xl hover:shadow-red-900/50 transition-all hover:scale-[1.02] font-medium text-sm inline-flex items-center justify-center gap-2"
+                    disabled={isSubmitting}
+                    className="flex-1 group relative px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-2xl hover:shadow-red-900/50 transition-all hover:scale-[1.02] font-medium text-sm inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:hover:scale-100"
                   >
-                    <Send className="w-4 h-4" />
-                    Отправить
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Отправка...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        Отправить
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

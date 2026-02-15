@@ -22,19 +22,19 @@ interface ColorOption {
   textColor: string;
 }
 
-// Базовые цены по ширине (высота фиксирована 2000 мм) - 11 размеров
+// Базовые цены по ширине (высота фиксирована 2000 мм) - все от 240 BYN
 const BASE_PRICES: Record<string, number> = {
-  '60x180 мм': 280,
-  '60x190 мм': 260,
-  '70x170 мм': 250,
-  '70x180 мм': 250,
-  '70x190 мм': 250,
-  '70x200 мм': 260,
-  '70x210 мм': 330,
-  '80x180 мм': 250,
-  '80x190 мм': 260,
-  '80x200 мм': 260,
-  '80x210 мм': 380,
+  '60x180 мм': 240,
+  '60x190 мм': 240,
+  '70x170 мм': 240,
+  '70x180 мм': 240,
+  '70x190 мм': 240,
+  '70x200 мм': 240,
+  '70x210 мм': 240,
+  '80x180 мм': 240,
+  '80x190 мм': 240,
+  '80x200 мм': 240,
+  '80x210 мм': 240,
 };
 
 // Цвета для прозрачных дверей
@@ -206,10 +206,10 @@ export function Doors6mmPage() {
 
   const getCurrentPrice = () => {
     if (!selectedSize) return 0;
-    let price = BASE_PRICES[selectedSize] || 0;
+    let price = BASE_PRICES[selectedSize] || 240;
     
     if (selectedProduct?.type === 'matt') {
-      price += 20;
+      price += 0; // Матовые тоже по 240
     }
     
     if (isNonStandard) price += 50;
@@ -221,11 +221,7 @@ export function Doors6mmPage() {
   };
 
   const getMinPrice = (product: Product) => {
-    const prices = Object.values(BASE_PRICES);
-    const minPrice = Math.min(...prices);
-    
-    if (product.type === 'matt') return minPrice + 20;
-    return minPrice;
+    return 240; // Все от 240 BYN
   };
 
   return (
@@ -322,6 +318,22 @@ export function Doors6mmPage() {
             })}
           </div>
 
+          {/* Акция - все по 240 */}
+          <div className="relative z-10 mb-8 sm:mb-10 md:mb-12">
+            <div className="bg-gradient-to-r from-[#b50202]/20 to-[#8b0000]/20 border-2 border-[#b50202]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 text-center">
+              <div className="inline-flex items-center gap-2 bg-[#b50202] text-white px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold mb-2 sm:mb-3">
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+                СПЕЦПРЕДЛОЖЕНИЕ
+              </div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white mb-2">
+                ВСЕ ДВЕРИ 6 ММ ПО ЦЕНЕ <span className="text-[#b50202] text-2xl sm:text-3xl md:text-4xl">240 BYN</span>
+              </h3>
+              <p className="text-sm sm:text-base text-slate-400">
+                Любой размер и цвет по одной цене! Торопитесь, предложение ограничено.
+              </p>
+            </div>
+          </div>
+
           {/* Products Grid - 2 карточки в ряд */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6 mb-12 sm:mb-14 md:mb-16 lg:mb-20 relative z-10 max-w-5xl mx-auto">
             {products.map((product) => (
@@ -350,6 +362,11 @@ export function Doors6mmPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0000] via-[#0a0000]/20 to-transparent"></div>
                     <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 px-2 sm:px-3 py-0.5 sm:py-1 bg-black/80 backdrop-blur-sm text-white text-[10px] sm:text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 whitespace-nowrap hidden sm:block">
                       👆 Увеличить фото
+                    </div>
+                    
+                    {/* Бейдж с ценой */}
+                    <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-[#b50202] text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-bold z-10">
+                      240 BYN
                     </div>
                   </div>
 
@@ -405,9 +422,9 @@ export function Doors6mmPage() {
 
                     <div className="mt-auto">
                       <div className="mb-2 sm:mb-3 md:mb-4 text-center">
-                        <p className="text-[10px] sm:text-xs text-slate-500 mb-0.5 sm:mb-1">Цена от:</p>
+                        <p className="text-[10px] sm:text-xs text-slate-500 mb-0.5 sm:mb-1">Цена:</p>
                         <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-black text-[#b50202]">
-                          {getMinPrice(product)} BYN
+                          240 BYN
                         </p>
                       </div>
                       <button
@@ -629,9 +646,12 @@ export function Doors6mmPage() {
                   <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-[#300000]/30 rounded-lg sm:rounded-xl">
                     <div className="flex justify-between items-center">
                       <span className="text-xs sm:text-sm text-slate-400">Итого:</span>
-                      <span className="text-xl sm:text-2xl md:text-3xl font-black text-[#b50202]">
-                        {formatPrice(getCurrentPrice())}
-                      </span>
+                      <div className="text-right">
+                        <span className="text-xl sm:text-2xl md:text-3xl font-black text-[#b50202]">
+                          {formatPrice(getCurrentPrice())}
+                        </span>
+                        <p className="text-[10px] sm:text-xs text-slate-500">Базовая цена 240 BYN</p>
+                      </div>
                     </div>
                   </div>
 

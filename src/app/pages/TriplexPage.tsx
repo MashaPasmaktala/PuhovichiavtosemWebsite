@@ -1,65 +1,66 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Shield, Layers, Lock, Phone, Zap, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Shield, Layers, Lock, Phone, Zap, CheckCircle, Sun, Eye, Palette, Wind, Maximize2 } from 'lucide-react';
 
-interface Product {
+interface Service {
   id: number;
-  name: string;
+  title: string;
+  description: string;
+  icon: any;
   image: string;
-  desc: string;
-  price: string;
   features: string[];
 }
 
-const products: Product[] = [
+const services: Service[] = [
   {
     id: 1,
-    name: 'Триплекс 6.2 мм (3+3)',
-    image: '/images/triplex-6mm.jpg',
-    desc: 'Два слоя стекла 3 мм с PVB пленкой. Базовая защита.',
-    price: 'от 4 800 руб/м²',
-    features: ['Защита от осколков', 'Шумоизоляция', 'УФ-защита 99%']
+    title: 'Стандартный триплекс',
+    description: '2 стекла и 1 слой полимера. Базовая защита для окон и дверей.',
+    icon: Layers,
+    image: '/images/triplex/standard.jpg',
+    features: ['Два слоя стекла', 'PVB пленка', 'Базовый уровень защиты']
   },
   {
     id: 2,
-    name: 'Триплекс 8.4 мм (4+4)',
-    image: '/images/triplex-8mm.jpg',
-    desc: 'Усиленная конструкция для повышенных нагрузок',
-    price: 'от 6 200 руб/м²',
-    features: ['Повышенная прочность', 'Безопасность', 'Звукоизоляция 35 дБ']
+    title: 'Двойной триплекс',
+    description: '3 слоя стекла и 2 слоя полимера. Усиленная конструкция.',
+    icon: Layers,
+    image: '/images/triplex/double.jpg',
+    features: ['Тройной слой стекла', 'Двойная ламинация', 'Повышенная прочность']
   },
   {
     id: 3,
-    name: 'Триплекс закаленный 8.8 мм',
-    image: '/images/triplex-tempered.jpg',
-    desc: 'Комбинация закалки и ламинирования. Максимальная безопасность.',
-    price: 'от 8 500 руб/м²',
-    features: ['Закалка + ламинация', 'Антивандальное', 'ГОСТ Р 54162']
+    title: 'Триплекс Optiwhite',
+    description: 'Из осветленного стекла оптивайт. Максимальная прозрачность.',
+    icon: Sun,
+    image: '/images/triplex/optiwhite.jpg',
+    features: ['Без зеленого оттенка', 'Идеальная прозрачность', 'Премиум качество']
   },
   {
     id: 4,
-    name: 'Триплекс цветной',
-    image: '/images/triplex-colored.jpg',
-    desc: 'Декоративный триплекс с цветной PVB пленкой',
-    price: 'от 7 200 руб/м²',
-    features: ['Широкая палитра', 'Дизайнерское решение', 'Цветная пленка']
-  },
-  {
-    id: 5,
-    name: 'Триплекс с фотопечатью',
-    image: '/images/triplex-print.jpg',
-    desc: 'Триплекс с печатью любого изображения между слоями',
-    price: 'от 9 500 руб/м²',
-    features: ['Любой дизайн', 'УФ-печать', 'Защищенное изображение']
+    title: 'Триплекс тонированный',
+    description: 'Декоративное стекло в цветах бронза, графит и другие.',
+    icon: Palette,
+    image: '/images/triplex/toned.jpg',
+    features: ['Цвет: бронза, графит', 'Декоративный эффект', 'Солнцезащита']
   },
   {
     id: 6,
-    name: 'Триплекс бронированный',
-    image: '/images/triplex-armored.jpg',
-    desc: 'Многослойная конструкция для защиты от взлома',
-    price: 'от 15 000 руб/м²',
-    features: ['Класс защиты А1-А3', 'Многослойное', 'Антивзлом']
-  },
+    title: 'Триплекс флоат-стекло',
+    description: 'Из обычного флоат-стекла. Оптимальное соотношение цены и качества.',
+    icon: Eye,
+    image: '/images/triplex/float.png',
+    features: ['Стандартная оптика', 'Доступная цена', 'Универсальность']
+  }
+];
+
+const thicknessOptions = [
+  '4 мм + 4 мм',
+  '5 мм + 5 мм',
+  '6 мм + 6 мм',
+  '8 мм + 8 мм',
+  '10 мм + 10 мм',
+  'Индивидуальная толщина'
 ];
 
 const createSparks = () => {
@@ -94,7 +95,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ image, title, isOpen, onClose }
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-6xl max-h-[90vh] bg-black rounded-2xl overflow-hidden"
+        className="relative w-full max-w-4xl max-h-[90vh] bg-black rounded-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
         <button
@@ -110,7 +111,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ image, title, isOpen, onClose }
             alt={title}
             className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg"
             onError={(e) => {
-              e.currentTarget.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="800" height="600" fill="%230a0000"/><text x="400" y="300" text-anchor="middle" fill="%23b50202" font-family="Arial" font-size="24" font-weight="bold">Изображение не найдено</text></svg>';
+              e.currentTarget.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%230a0000"/><text x="200" y="150" text-anchor="middle" fill="%23b50202" font-family="Arial" font-size="16" font-weight="bold">Изображение не найдено</text></svg>';
             }}
           />
         </div>
@@ -196,7 +197,7 @@ export function TriplexPage() {
             </h1>
             
             <div className="text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto px-2 md:px-4 font-medium">
-              Безопасное многослойное стекло с PVB пленкой. Защита от осколков при разрушении, шумоизоляция, УФ-защита.
+              Безопасное многослойное стекло с полимерными слоями. Индивидуальный подбор толщины и типа стекла под ваши задачи.
             </div>
           </div>
 
@@ -210,7 +211,7 @@ export function TriplexPage() {
               },
               {
                 title: "Многослойность",
-                description: "Несколько слоев стекла с PVB пленкой для максимальной прочности",
+                description: "От 2 до 3 слоев стекла с полимерными прослойками",
                 icon: Layers
               },
               {
@@ -237,80 +238,150 @@ export function TriplexPage() {
             })}
           </div>
 
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 md:mb-20 relative z-10">
-            {products.map((product) => (
-              <div key={product.id} className="group relative flex flex-col">
-                <div className="absolute -inset-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-all duration-500"></div>
-                
-                <div className="relative bg-gradient-to-b from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-3xl overflow-hidden hover:border-[#b50202]/50 transition-all duration-500 group-hover:scale-[1.03] h-full flex flex-col">
+          {/* Типы триплекса - Заголовок */}
+          <div className="text-center mb-10 relative z-10">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-4">
+              ВИДЫ ТРИПЛЕКСА
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-[#b50202] to-[#8b0000] mx-auto rounded-full"></div>
+          </div>
+
+          {/* Services Grid - Типы триплекса с картинками */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 relative z-10">
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <div key={service.id} className="group relative flex flex-col h-full">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-all duration-500"></div>
                   
-                  {/* Image Container */}
-                  <div 
-                    className="relative pt-[75%] overflow-hidden flex-shrink-0 cursor-pointer"
-                    onClick={() => handleImageClick(product.image, product.name)}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center bg-[#0a0000] p-4">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                          e.currentTarget.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="%230a0000"/><text x="200" y="150" text-anchor="middle" fill="%23b50202" font-family="Arial" font-size="20" font-weight="bold">${product.name}</text></svg>';
-                        }}
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0000] via-[#0a0000]/20 to-transparent"></div>
+                  <div className="relative bg-gradient-to-b from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-3xl overflow-hidden hover:border-[#b50202]/50 transition-all duration-500 group-hover:scale-[1.02] h-full flex flex-col">
                     
-                    {/* Click hint */}
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/80 backdrop-blur-sm text-white text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 whitespace-nowrap">
-                      Кликните для увеличения
+                    {/* Image Container - одинаковый размер для всех */}
+                    <div 
+                      className="relative pt-[56.25%] overflow-hidden cursor-pointer"
+                      onClick={() => handleImageClick(service.image, service.title)}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#0a0000]">
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => {
+                            e.currentTarget.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" fill="%23300"/><text x="200" y="112" text-anchor="middle" fill="%23b50202" font-family="Arial" font-size="14" font-weight="bold">' + service.title + '</text></svg>';
+                          }}
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0000] via-transparent to-transparent opacity-60"></div>
+                      
+                      {/* Иконка поверх изображения */}
+                      <div className="absolute top-3 left-3 p-2 bg-black/60 backdrop-blur-sm rounded-lg border border-[#b50202]/30 z-10">
+                        <Icon className="w-5 h-5 text-[#b50202]" />
+                      </div>
+                      
+                      {/* Click hint */}
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/80 backdrop-blur-sm text-white text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 whitespace-nowrap">
+                        Кликните для увеличения
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Content */}
-                  <div className="p-5 md:p-6 flex flex-col flex-grow">
-                    <h3 className="text-lg sm:text-xl font-black text-white mb-3 group-hover:text-[#b50202] transition-colors text-center">
-                      {product.name}
-                    </h3>
-                    
-                    <div className="text-sm md:text-base text-slate-400 mb-4 flex-grow text-center">
-                      {product.desc}
-                    </div>
-
-                    {/* Features */}
-                    <div className="flex flex-wrap gap-2 mb-4 justify-center">
-                      {product.features.map((feature, i) => (
-                        <span key={i} className="px-2 py-1 bg-[#300000]/50 border border-[#b50202]/20 text-slate-300 text-xs rounded-md">
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Price and CTA */}
-                    <div className="mt-auto">
-                      <div className="mb-4 text-center">
-                        <p className="text-xl md:text-2xl font-black text-[#b50202]">
-                          {product.price}
-                        </p>
+                    {/* Content */}
+                    <div className="p-5 md:p-6 flex flex-col flex-grow">
+                      <h3 className="text-lg md:text-xl font-black text-white mb-3 group-hover:text-[#b50202] transition-colors text-center">
+                        {service.title}
+                      </h3>
+                      
+                      <div className="text-sm md:text-base text-slate-400 mb-4 flex-grow text-center">
+                        {service.description}
                       </div>
 
-                      <a
-                        href="tel:+375447256683"
-                        className="w-full px-4 py-3 bg-gradient-to-r from-[#b50202] to-[#8b0000] text-white rounded-lg font-bold hover:shadow-lg hover:shadow-[#8b0000]/40 transition-all duration-300 inline-flex items-center justify-center gap-2 text-sm md:text-base group/btn"
-                      >
-                        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></div>
-                        <Phone className="w-4 h-4 md:w-5 md:h-5 relative" />
-                        <span className="relative">Заказать</span>
-                      </a>
-                    </div>
-                  </div>
+                      {/* Features */}
+                      <div className="flex flex-wrap gap-2 mb-4 justify-center">
+                        {service.features.map((feature, i) => (
+                          <span key={i} className="px-2 py-1 bg-[#300000]/50 border border-[#b50202]/20 text-slate-300 text-xs rounded-md">
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
 
-                  {/* Bottom accent line */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-full group-hover:w-3/4 transition-all duration-300"></div>
+                      {/* Price and CTA */}
+                      <div className="mt-auto">
+                        <a
+                          href="tel:+375447256683"
+                          className="w-full px-4 py-3 bg-gradient-to-r from-[#b50202] to-[#8b0000] text-white rounded-lg font-bold hover:shadow-lg hover:shadow-[#8b0000]/40 transition-all duration-300 inline-flex items-center justify-center gap-2 text-sm md:text-base group/btn"
+                        >
+                          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></div>
+                          <Phone className="w-4 h-4 md:w-5 md:h-5 relative" />
+                          <span className="relative">Заказать</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Bottom accent line */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-[#b50202] to-[#8b0000] rounded-full group-hover:w-3/4 transition-all duration-300"></div>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+
+          {/* Возможности толщин */}
+          <div className="relative z-10 mb-16">
+            <div className="bg-gradient-to-br from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-3xl p-8 md:p-10">
+              
+              <div className="text-center mb-8">
+                <Maximize2 className="w-12 h-12 text-[#b50202] mx-auto mb-4" />
+                <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+                  ЛЮБАЯ ТОЛЩИНА СТЕКЛА
+                </h3>
+                <p className="text-slate-400 text-lg">
+                  Мы изготовим триплекс с индивидуальным подбором толщины стекол
+                </p>
               </div>
-            ))}
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {thicknessOptions.map((option, index) => (
+                  <div key={index} className="text-center p-3 bg-[#300000]/30 border border-[#b50202]/20 rounded-xl">
+                    <span className="text-sm font-medium text-white">{option}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 text-center text-slate-400 text-sm">
+                * Возможно изготовление нестандартных размеров по вашему заданию
+              </div>
+            </div>
+          </div>
+
+          {/* Дополнительные возможности */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 relative z-10">
+            
+            {/* Флоат-стекло */}
+            <div className="bg-gradient-to-br from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-2xl p-6 hover:border-[#b50202]/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-3">
+                <Eye className="w-6 h-6 text-[#b50202]" />
+                <h4 className="text-lg font-black text-white">Флоат-стекло</h4>
+              </div>
+              <p className="text-slate-400 text-sm">Обычное флоат-стекло для базовых решений</p>
+            </div>
+
+            {/* Optiwhite */}
+            <div className="bg-gradient-to-br from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-2xl p-6 hover:border-[#b50202]/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-3">
+                <Sun className="w-6 h-6 text-[#b50202]" />
+                <h4 className="text-lg font-black text-white">Осветленное Optiwhite</h4>
+              </div>
+              <p className="text-slate-400 text-sm">Максимальная прозрачность без зеленого оттенка</p>
+            </div>
+
+            {/* Тонированное */}
+            <div className="bg-gradient-to-br from-[#1a0000] to-[#0a0000] border-2 border-[#300000] rounded-2xl p-6 hover:border-[#b50202]/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-3">
+                <Palette className="w-6 h-6 text-[#b50202]" />
+                <h4 className="text-lg font-black text-white">Тонированное</h4>
+              </div>
+              <p className="text-slate-400 text-sm">Цвета: бронза, графит и другие оттенки</p>
+            </div>
+
           </div>
 
           {/* Benefits Grid */}
@@ -324,7 +395,7 @@ export function TriplexPage() {
               {
                 title: "Шумоизоляция",
                 description: "Снижение уровня шума до 35 дБ",
-                icon: Zap
+                icon: Wind
               },
               {
                 title: "Безопасность",
